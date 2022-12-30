@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">Rectangle</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="top_left_y">Top left Y</string>
+    <string name="top_left_x">Top left X</string>
+    <string name="second_rectangle_coordinates">Second rectangle coordinates</string>
+    <string name="first_rectangle_coordinates">First rectangle coordinates</string>
+    <string name="generate_rectangles">Generate rectangles</string>
+    <string name="example">Example coordinates</string>
+    <string name="exampleFist">First \nT.L-X = 0 ___ T.L-Y = 310 \nR.B-X = 900 ___ R.B-Y = 350 \nSecond \nT.L-X = 250 ___ T.L-Y = 0 \nR.B-X = 600 ___ R.B-Y = 320</string>
+    <string name="right_bottom_x">Right bottom X</string>
+    <string name="right_bottom_y">Right bottom Y</string>
+    <string name="error_x_x_less">L.X must be less B.X</string>
+    <string name="error_x_x_more">B.X must be more than L.X</string>
+    <string name="error_y_y_less">L.Y must be less B.Y</string>
+    <string name="error_y_y_more">B.Y must be more than L.Y</string>
+
+</resources>

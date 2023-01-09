@@ -16,4 +16,8 @@
     <string name="error_y_y_less">L.Y must be less B.Y</string>
     <string name="error_y_y_more">B.Y must be more than L.Y</string>
 
+    <string name="error_x_x_equal">L.X must not be equal B.X</string>
+    <string name="error_y_y_equal">L.Y must not be equal B.Y</string>
+
+
 </resources>

@@ -2,7 +2,6 @@ package com.test.rectangle
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.launch
@@ -12,6 +11,17 @@ class MainViewModel : ViewModel() {
     private var fBottomRight: Point = Point()
     private var sFopLeft: Point = Point()
     private var sBottomRight: Point = Point()
+    var validFTopLeftX: Boolean = true
+    var validFTopLeftY: Boolean = true
+    var validFBottomRightX: Boolean = true
+    var validFBottomRightY: Boolean = true
+    var validSTopLeftX: Boolean = true
+    var validSTopLeftY: Boolean = true
+    var validSBottomRightX: Boolean = true
+    var validSBottomRightY: Boolean = true
+
+    var width: Int = 0
+    var height: Int = 0
     private val _calculateRectangles = MutableSharedFlow<RectanglesPoints>()
     val calculateRectangles: SharedFlow<RectanglesPoints> = _calculateRectangles
 
@@ -63,14 +73,14 @@ class MainViewModel : ViewModel() {
 
     private fun validateCoordinates(rectanglesPoints: RectanglesPoints) {
         viewModelScope.launch {
-            if (fTopLeft.x >= 0 &&
-                fTopLeft.y >= 0 &&
-                fBottomRight.x >= 0 &&
-                fBottomRight.y >= 0 &&
-                sFopLeft.x >= 0 &&
-                sFopLeft.y >= 0 &&
-                sBottomRight.x >= 0 &&
-                sBottomRight.y >= 0
+            if (fTopLeft.x >= 0 && validFTopLeftX &&
+                fTopLeft.y >= 0 && validFTopLeftY &&
+                fBottomRight.x >= 0 && validFBottomRightX &&
+                fBottomRight.y >= 0 && validFBottomRightY &&
+                sFopLeft.x >= 0 && validSTopLeftX &&
+                sFopLeft.y >= 0 && validSTopLeftY &&
+                sBottomRight.x >= 0 && validSBottomRightX &&
+                sBottomRight.y >= 0 && validSBottomRightY
             ) {
                 if (fTopLeft.x > fBottomRight.x) {
                     _calculateRectanglesError.emit(CoordinateErrorType.ERROR_FIRST_X)
@@ -80,6 +90,14 @@ class MainViewModel : ViewModel() {
                     _calculateRectanglesError.emit(CoordinateErrorType.ERROR_SECOND_X)
                 } else if (sFopLeft.y > sBottomRight.y) {
                     _calculateRectanglesError.emit(CoordinateErrorType.ERROR_SECOND_Y)
+                }else if (fTopLeft.x == fBottomRight.x) {
+                    _calculateRectanglesError.emit(CoordinateErrorType.ERROR_FIRST_X_EQUAL)
+                } else if (fTopLeft.y == fBottomRight.y) {
+                    _calculateRectanglesError.emit(CoordinateErrorType.ERROR_FIRST_Y_EQUAL)
+                } else if (sFopLeft.x == sBottomRight.x) {
+                    _calculateRectanglesError.emit(CoordinateErrorType.ERROR_SECOND_X_EQUAL)
+                } else if (sFopLeft.y == sBottomRight.y) {
+                    _calculateRectanglesError.emit(CoordinateErrorType.ERROR_SECOND_Y_EQUAL)
                 } else {
                     _calculateRectangles.emit(rectanglesPoints)
                 }

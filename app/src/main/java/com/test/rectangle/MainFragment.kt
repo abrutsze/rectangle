@@ -18,6 +18,7 @@ import kotlinx.coroutines.launch
 
 class MainFragment : FragmentBaseNCMVVM<MainViewModel>() {
 
+    private var isValidInputData: Boolean = true
     private lateinit var binding: FragmentMainBinding
     override val viewModel: MainViewModel by viewModels()
     private var width: Int = 0
@@ -35,7 +36,8 @@ class MainFragment : FragmentBaseNCMVVM<MainViewModel>() {
         super.onViewCreated(view, savedInstanceState)
         getScreenSize()
         binding.generate.setOnClickListener {
-            viewModel.generate()
+            //if (isValidInputData)
+                viewModel.generate()
 
         }
         initDefaultData()
@@ -70,6 +72,23 @@ class MainFragment : FragmentBaseNCMVVM<MainViewModel>() {
                                 sTopLeftYLayout.error = getString(R.string.error_y_y_less)
                                 sBottomRightYLayout.error = getString(R.string.error_y_y_more)
                             }
+
+                            CoordinateErrorType.ERROR_FIRST_X_EQUAL -> {
+                                fTopLeftXLayout.error = getString(R.string.error_x_x_equal)
+                                fBottomRightXLayout.error = getString(R.string.error_x_x_equal)
+                            }
+                            CoordinateErrorType.ERROR_FIRST_Y_EQUAL -> {
+                                fTopLeftYLayout.error = getString(R.string.error_y_y_equal)
+                                fBottomRightYLayout.error = getString(R.string.error_y_y_equal)
+                            }
+                            CoordinateErrorType.ERROR_SECOND_X_EQUAL -> {
+                                sTopLeftYLayout.error = getString(R.string.error_x_x_equal)
+                                sBottomRightYLayout.error = getString(R.string.error_x_x_equal)
+                            }
+                            CoordinateErrorType.ERROR_SECOND_Y_EQUAL -> {
+                                sTopLeftYLayout.error = getString(R.string.error_y_y_equal)
+                                sBottomRightYLayout.error = getString(R.string.error_y_y_equal)
+                            }
                             else -> {
                                 Toast.makeText(
                                     context,
@@ -88,48 +107,56 @@ class MainFragment : FragmentBaseNCMVVM<MainViewModel>() {
                 if (isValid) {
                     viewModel.setFTopLeftX(text.toString().toInt())
                 }
+                viewModel.validFTopLeftX = isValid
             }
             fTopLeftY.doOnTextChanged { text, _, _, _ ->
                 val isValid = text.validateScreenY(fTopLeftYLayout)
                 if (isValid) {
                     viewModel.setFTopLeftY(text.toString().toInt())
                 }
+                viewModel.validFTopLeftY = isValid
             }
             fBottomXRight.doOnTextChanged { text, _, _, _ ->
                 val isValid = text.validateScreenX(fBottomRightXLayout)
                 if (isValid) {
                     viewModel.setFBottomRightX(text.toString().toInt())
                 }
+                viewModel.validFBottomRightY = isValid
             }
             fBottomYRight.doOnTextChanged { text, _, _, _ ->
                 val isValid = text.validateScreenY(fBottomRightYLayout)
                 if (isValid) {
                     viewModel.setFBottomRightY(text.toString().toInt())
                 }
+                viewModel.validFBottomRightY = isValid
             }
             sTopLeftX.doOnTextChanged { text, _, _, _ ->
                 val isValid = text.validateScreenX(sTopLeftXLayout)
                 if (isValid) {
                     viewModel.setSTopLeftX(text.toString().toInt())
                 }
+                viewModel.validSTopLeftX = isValid
             }
             sTopLeftY.doOnTextChanged { text, _, _, _ ->
                 val isValid = text.validateScreenY(sTopLeftYLayout)
                 if (isValid) {
                     viewModel.setSTopLeftY(text.toString().toInt())
                 }
+                viewModel.validSTopLeftY = isValid
             }
             sBottomXRight.doOnTextChanged { text, _, _, _ ->
                 val isValid = text.validateScreenX(sBottomRightXLayout)
                 if (isValid) {
                     viewModel.setSBottomRightX(text.toString().toInt())
                 }
+                viewModel.validSBottomRightX= isValid
             }
             sBottomYRight.doOnTextChanged { text, _, _, _ ->
                 val isValid = text.validateScreenY(sBottomRightYLayout)
                 if (isValid) {
                     viewModel.setSBottomRightY(text.toString().toInt())
                 }
+                viewModel.validSBottomRightY = isValid
             }
         }
     }
@@ -166,6 +193,8 @@ class MainFragment : FragmentBaseNCMVVM<MainViewModel>() {
         val metrics: DisplayMetrics = this.resources.displayMetrics
         width = metrics.widthPixels
         height = metrics.heightPixels
+        viewModel.height = height
+        viewModel.width = width
     }
 
     private fun CharSequence?.validateScreenX(textInputLayout: TextInputLayout): Boolean {
@@ -176,9 +205,11 @@ class MainFragment : FragmentBaseNCMVVM<MainViewModel>() {
             } else {
                 textInputLayout.error = ""
             }
+            isValidInputData = validate
             validate
         } else {
             textInputLayout.error = "X not must be empty"
+            isValidInputData = false
             false
         }
     }
@@ -191,16 +222,13 @@ class MainFragment : FragmentBaseNCMVVM<MainViewModel>() {
             } else {
                 textInputLayout.error = ""
             }
+            isValidInputData = validate
             validate
         } else {
             textInputLayout.error = "Y not must be empty"
+            isValidInputData = false
             false
         }
     }
 
-    companion object {
-
-        @JvmStatic
-        fun newInstance() = MainFragment()
-    }
 }

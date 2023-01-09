@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.launch
 
 class MainViewModel : ViewModel() {
@@ -12,10 +13,10 @@ class MainViewModel : ViewModel() {
     private var sFopLeft: Point = Point()
     private var sBottomRight: Point = Point()
     private val _calculateRectangles = MutableSharedFlow<RectanglesPoints>()
-    val calculateRectangles: Flow<RectanglesPoints> = _calculateRectangles
+    val calculateRectangles: SharedFlow<RectanglesPoints> = _calculateRectangles
 
     private val _calculateRectanglesError = MutableSharedFlow<CoordinateErrorType>()
-    val calculateRectanglesError: Flow<CoordinateErrorType> = _calculateRectanglesError
+    val calculateRectanglesError: SharedFlow<CoordinateErrorType> = _calculateRectanglesError
 
     fun setFTopLeftX(x: Int) {
         fTopLeft.x = x

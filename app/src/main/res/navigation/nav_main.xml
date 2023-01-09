@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_main"
+    app:startDestination="@id/mainFragment">
+
+    <fragment
+        android:id="@+id/mainFragment"
+        android:name="com.test.rectangle.MainFragment"
+        android:label="MainFragment"
+        tools:layout="@layout/fragment_main">
+
+        <action
+            android:id="@+id/action_mainFragment_to_drawFragment"
+            app:destination="@id/drawFragment"/>
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/drawFragment"
+        android:name="com.test.rectangle.DrawFragment"
+        android:label="DrawFragment"
+        tools:layout="@layout/fragment_draw">
+
+        <argument
+            android:name="points"
+            app:argType="com.test.rectangle.RectanglesPoints"
+            app:nullable="true"
+            android:defaultValue="@null" />
+
+    </fragment>
+</navigation>

@@ -8,17 +8,6 @@
     tools:context=".MainActivity">
 
     <TextView
-        android:id="@+id/generate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="10dp"
-        android:text="Next"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
         android:id="@+id/rectangle_info"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -26,7 +15,7 @@
         android:layout_marginTop="10dp"
         android:text="@string/first_rectangle_coordinates"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/generate" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/line"
@@ -209,6 +198,16 @@
             android:inputType="number" />
     </com.google.android.material.textfield.TextInputLayout>
 
+    <Button
+        android:id="@+id/generate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:text="Next"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/sBottomRightYLayout" />
+
     <TextView
         android:id="@+id/exampleCoordinates"
         android:layout_width="wrap_content"
@@ -216,7 +215,7 @@
         android:text="@string/example"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/sBottomRightYLayout" />
+        app:layout_constraintTop_toBottomOf="@+id/generate" />
 
     <TextView
         android:layout_width="wrap_content"

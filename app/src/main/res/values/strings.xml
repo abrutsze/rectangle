@@ -8,7 +8,7 @@
     <string name="first_rectangle_coordinates">First rectangle coordinates</string>
     <string name="generate_rectangles">Generate rectangles</string>
     <string name="example">Example coordinates</string>
-    <string name="exampleFist">First \nT.L-X = 0 ___ T.L-Y = 310 \nR.B-X = 900 ___ R.B-Y = 350 \nSecond \nT.L-X = 250 ___ T.L-Y = 0 \nR.B-X = 600 ___ R.B-Y = 320</string>
+    <string name="exampleFist">First \nT.L-X = 0 ___ T.L-Y = 0 \nR.B-X = 100 ___ R.B-Y = 100 \nSecond \nT.L-X = 50 ___ T.L-Y = 50 \nR.B-X = 150 ___ R.B-Y = 150</string>
     <string name="right_bottom_x">Right bottom X</string>
     <string name="right_bottom_y">Right bottom Y</string>
     <string name="error_x_x_less">L.X must be less B.X</string>

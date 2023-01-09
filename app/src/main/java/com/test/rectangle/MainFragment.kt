@@ -7,18 +7,19 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.widget.doOnTextChanged
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.textfield.TextInputLayout
 import com.test.rectangle.databinding.FragmentMainBinding
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 
-class MainFragment : Fragment() {
+class MainFragment : FragmentBaseNCMVVM<MainViewModel>() {
 
     private lateinit var binding: FragmentMainBinding
-    private val viewModel: MainViewModel by viewModels()
+    override val viewModel: MainViewModel by viewModels()
     private var width: Int = 0
     private var height: Int = 0
 
@@ -35,44 +36,50 @@ class MainFragment : Fragment() {
         getScreenSize()
         binding.generate.setOnClickListener {
             viewModel.generate()
+
         }
         initDefaultData()
-        lifecycleScope.launchWhenResumed {
-            viewModel.calculateRectangles.collectLatest {
-                (activity as? MainActivity)?.navigate(DrowFragment.newInstance(it))
-            }
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.calculateRectangles
+                .flowWithLifecycle(viewLifecycleOwner.lifecycle)
+                .collectLatest {
+                    val directions = MainFragmentDirections.actionMainFragmentToDrawFragment(it)
+                    navigateFragment(directions)
+                }
         }
 
-        lifecycleScope.launchWhenResumed {
-            viewModel.calculateRectanglesError.collectLatest {
-                with(binding) {
-                    when (it) {
-                        CoordinateErrorType.ERROR_FIRST_X -> {
-                            fTopLeftXLayout.error = getString(R.string.error_x_x_less)
-                            fBottomRightXLayout.error = getString(R.string.error_x_x_more)
-                        }
-                        CoordinateErrorType.ERROR_FIRST_Y -> {
-                            fTopLeftYLayout.error = getString(R.string.error_y_y_less)
-                            fBottomRightYLayout.error = getString(R.string.error_y_y_more)
-                        }
-                        CoordinateErrorType.ERROR_SECOND_X -> {
-                            sTopLeftYLayout.error = getString(R.string.error_x_x_less)
-                            sBottomRightYLayout.error = getString(R.string.error_x_x_more)
-                        }
-                        CoordinateErrorType.ERROR_SECOND_Y -> {
-                            sTopLeftYLayout.error = getString(R.string.error_y_y_less)
-                            sBottomRightYLayout.error = getString(R.string.error_y_y_more)
-                        }
-                        else -> {
-                            Toast.makeText(
-                                context,
-                                "Incorrect input coordinate ",
-                                Toast.LENGTH_SHORT
-                            ).show()
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.calculateRectanglesError
+                .flowWithLifecycle(viewLifecycleOwner.lifecycle)
+                .collectLatest {
+                    with(binding) {
+                        when (it) {
+                            CoordinateErrorType.ERROR_FIRST_X -> {
+                                fTopLeftXLayout.error = getString(R.string.error_x_x_less)
+                                fBottomRightXLayout.error = getString(R.string.error_x_x_more)
+                            }
+                            CoordinateErrorType.ERROR_FIRST_Y -> {
+                                fTopLeftYLayout.error = getString(R.string.error_y_y_less)
+                                fBottomRightYLayout.error = getString(R.string.error_y_y_more)
+                            }
+                            CoordinateErrorType.ERROR_SECOND_X -> {
+                                sTopLeftYLayout.error = getString(R.string.error_x_x_less)
+                                sBottomRightYLayout.error = getString(R.string.error_x_x_more)
+                            }
+                            CoordinateErrorType.ERROR_SECOND_Y -> {
+                                sTopLeftYLayout.error = getString(R.string.error_y_y_less)
+                                sBottomRightYLayout.error = getString(R.string.error_y_y_more)
+                            }
+                            else -> {
+                                Toast.makeText(
+                                    context,
+                                    "Incorrect input coordinate ",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
                         }
                     }
                 }
-            }
         }
 
         with(binding) {
@@ -132,26 +139,26 @@ class MainFragment : Fragment() {
             fTopLeftX.setText("0")
             viewModel.setFTopLeftX(0)
 
-            fTopLeftY.setText("310")
-            viewModel.setFTopLeftY(310)
+            fTopLeftY.setText("0")
+            viewModel.setFTopLeftY(0)
 
-            fBottomXRight.setText("900")
-            viewModel.setFBottomRightX(900)
+            fBottomXRight.setText("100")
+            viewModel.setFBottomRightX(100)
 
-            fBottomYRight.setText("350")
-            viewModel.setFBottomRightY(350)
+            fBottomYRight.setText("100")
+            viewModel.setFBottomRightY(100)
 
-            sTopLeftX.setText("250")
-            viewModel.setSTopLeftX(250)
+            sTopLeftX.setText("50")
+            viewModel.setSTopLeftX(50)
 
-            sTopLeftY.setText("0")
-            viewModel.setSTopLeftY(0)
+            sTopLeftY.setText("50")
+            viewModel.setSTopLeftY(50)
 
-            sBottomXRight.setText("600")
-            viewModel.setSBottomRightX(600)
+            sBottomXRight.setText("150")
+            viewModel.setSBottomRightX(150)
 
-            sBottomYRight.setText("320")
-            viewModel.setSBottomRightY(320)
+            sBottomYRight.setText("150")
+            viewModel.setSBottomRightY(150)
         }
     }
 

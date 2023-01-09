@@ -19,10 +19,10 @@ class CustomView(
 
     init {
         /* example point
-            val l1 = Point(0, 310)
-            val r1 = Point(900, 350)
-            val l2 = Point(250, 0)
-            val r2 = Point(600, 320)
+            val l1 = Point(0, 0)
+            val r1 = Point(100, 100)
+            val l2 = Point(50, 50)
+            val r2 = Point(150, 150)
         */
         val l1 = rectanglesPoints.topLeft1
         val r1 = rectanglesPoints.bottomRight1
@@ -33,9 +33,9 @@ class CustomView(
 
         val isOverlap = rectangleFirst.isOverlapping(rectangleSecond)
         val overlappingArea = rectangleFirst.overlappingArea(l2, r2)
-        
+
         if (isOverlap) {
-            Toast.makeText(context, "Rectangles Overlap and area is $overlappingArea px", Toast.LENGTH_LONG).show()
+            Toast.makeText(context, "Rectangles Overlap and area is $overlappingArea IoU, == ${overlappingArea*100} %", Toast.LENGTH_LONG).show()
         } else {
             Toast.makeText(context, "Rectangles Don't Overlap", Toast.LENGTH_LONG).show()
         }
